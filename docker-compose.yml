@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: hijafera-tracking-hub
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=mysql://hijafera_user:hijafera_pass@db:3306/hijafera_db
+      - JWT_SECRET=hijafera-super-secret-jwt-key-2026-secure
+      - NEXT_PUBLIC_APP_URL=https://trigger.domain.com
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: hijafera-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_123
+      MYSQL_DATABASE: hijafera_db
+      MYSQL_USER: hijafera_user
+      MYSQL_PASSWORD: hijafera_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

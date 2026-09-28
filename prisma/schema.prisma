@@ -1,0 +1,224 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                 String               @id @default(uuid())
+  email              String               @unique
+  passwordHash       String
+  name               String
+  role               String               @default("ADMIN") // ADMIN, ADVERTISER, COPYWRITER, VIDEO_EDITOR
+  avatarUrl          String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+
+  advertiserRequests ContentRequest[]     @relation("AdvertiserRequests")
+  copywriterRequests ContentRequest[]     @relation("CopywriterRequests")
+  videoEditorRequests ContentRequest[]    @relation("VideoEditorRequests")
+  createdRequests    ContentRequest[]     @relation("CreatedRequests")
+
+  statusChanges      ContentStatusHistory[]
+  uploadedVersions   ContentVersion[]
+  requestedRevisions ContentRevision[]    @relation("RequestedRevisions")
+  assignedRevisions  ContentRevision[]    @relation("AssignedRevisions")
+  comments           Comment[]
+  notifications      Notification[]
+  auditLogs          AuditLog[]
+}
+
+model Campaign {
+  id          String           @id @default(uuid())
+  name        String           @unique
+  status      String           @default("New") // New, Maintenance
+  url         String?
+  shortUrl    String?
+  description String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  contents    ContentRequest[]
+}
+
+model Entity {
+  id        String           @id @default(uuid())
+  name      String           @unique
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  contents  ContentRequest[]
+}
+
+model Platform {
+  id        String           @id @default(uuid())
+  name      String           @unique
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  contents  ContentRequest[]
+}
+
+model ContentRequest {
+  id               String                 @id // CNT-2026-0001
+  campaignId       String?
+  campaign         Campaign?              @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  campaignName     String
+  campaignStatus   String                 @default("New") // New, Maintenance
+  entityId         String?
+  entity           Entity?                @relation(fields: [entityId], references: [id], onDelete: SetNull)
+  entityName       String
+  platformId       String?
+  platform         Platform?              @relation(fields: [platformId], references: [id], onDelete: SetNull)
+  platformName     String
+  campaignUrl      String?
+  shortUrl         String?
+  contentCategory  String?
+  priority         String                 @default("Medium") // Urgent, Medium, Low
+  deadline         DateTime
+
+  advertiserId     String?
+  advertiser       User?                  @relation("AdvertiserRequests", fields: [advertiserId], references: [id], onDelete: SetNull)
+  copywriterId     String?
+  copywriter       User?                  @relation("CopywriterRequests", fields: [copywriterId], references: [id], onDelete: SetNull)
+  videoEditorId    String?
+  videoEditor      User?                  @relation("VideoEditorRequests", fields: [videoEditorId], references: [id], onDelete: SetNull)
+  createdById      String?
+  createdBy        User?                  @relation("CreatedRequests", fields: [createdById], references: [id], onDelete: SetNull)
+
+  // Brief
+  title            String
+  videoCount       Int                    @default(1)
+  briefAdvertiser  String?
+  objective        String?
+  targetAudience   String?
+  keyMessage       String?
+  cta              String?
+  toDo             String?
+  additionalInfo   String?
+
+  // Assets & References
+  assetLink        String?
+  referenceUrl     String?
+  previousVt       String?
+  campaignRefUrl   String?
+  additionalRefLinks String? // Stored as JSON string or multi-line text
+
+  // Workflows & Output
+  status           String                 @default("REQUESTED") // REQUESTED, ASSIGNED, COPYWRITING, EDITING, INTERNAL_REVIEW, REVISION, APPROVED, READY_TO_PUBLISH, PUBLISHED
+  statusRunning    String                 @default("Belum Running") // Belum Running, Running, Paused, Completed
+  grade            String?                // A, B, C, D
+  script           String?
+  copy             String?
+  finalVideoUrl    String?
+  publishedUrl     String?
+
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+
+  statusHistory    ContentStatusHistory[]
+  versions         ContentVersion[]
+  revisions        ContentRevision[]
+  comments         Comment[]
+  attachments      Attachment[]
+  notifications    Notification[]
+}
+
+model ContentStatusHistory {
+  id             String         @id @default(uuid())
+  contentId      String
+  content        ContentRequest @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  previousStatus String?
+  newStatus      String
+  changedById    String?
+  changedBy      User?          @relation(fields: [changedById], references: [id], onDelete: SetNull)
+  note           String?
+  createdAt      DateTime       @default(now())
+}
+
+model ContentVersion {
+  id           String         @id @default(uuid())
+  contentId    String
+  content      ContentRequest @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  versionNumber Int           @default(1)
+  title        String?
+  script       String?
+  videoUrl     String?
+  assetUrl     String?
+  thumbnailUrl String?
+  publishedUrl String?
+  status       String         @default("Draft")
+  uploadedById String?
+  uploadedBy   User?          @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  createdAt    DateTime       @default(now())
+}
+
+model ContentRevision {
+  id            String         @id @default(uuid())
+  contentId     String
+  content       ContentRequest @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  revisionNumber Int           @default(1)
+  feedback      String
+  requestedById String?
+  requestedBy   User?          @relation("RequestedRevisions", fields: [requestedById], references: [id], onDelete: SetNull)
+  assignedToId  String?
+  assignedTo    User?          @relation("AssignedRevisions", fields: [assignedToId], references: [id], onDelete: SetNull)
+  isCompleted   Boolean        @default(false)
+  completedAt   DateTime?
+  createdAt     DateTime       @default(now())
+}
+
+model Comment {
+  id        String         @id @default(uuid())
+  contentId String
+  content   ContentRequest @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  text      String
+  parentId  String?
+  parent    Comment?       @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[]      @relation("CommentReplies")
+  createdAt DateTime       @default(now())
+}
+
+model Attachment {
+  id        String         @id @default(uuid())
+  contentId String
+  content   ContentRequest @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  title     String
+  url       String
+  type      String         @default("Reference") // Reference, Asset, Benchmark, Previous VT, Other
+  createdAt DateTime       @default(now())
+}
+
+model Notification {
+  id        String          @id @default(uuid())
+  userId    String
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  contentId String?
+  content   ContentRequest? @relation(fields: [contentId], references: [id], onDelete: SetNull)
+  isRead    Boolean         @default(false)
+  link      String?
+  createdAt DateTime        @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  ip        String?
+  details   String?
+  timestamp DateTime @default(now())
+}
+
+model AppSettings {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}

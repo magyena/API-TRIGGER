@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HIJAFERA - Brand DNA Presentation Deck</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #51269A;
+      --primary-light: #6e3bbd;
+      --primary-dark: #371869;
+      --gold: #DBB15A;
+      --gold-light: #f5d68b;
+      --cream: #FBF3EA;
+      --cream-dark: #f0e2d3;
+      --white: #FFFFFF;
+      --dark-text: #2A2438;
+      --muted-text: #665C74;
+      --shadow: 0 10px 30px rgba(81, 38, 154, 0.08);
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: #120e18;
+      color: var(--dark-text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Presentation Container */
+    .presentation-container {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 70px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Slide Card Aspect Ratio 16:9 */
+    .slide-stage {
+      position: relative;
+      width: 100%;
+      max-width: 1280px;
+      height: 100%;
+      max-height: 720px;
+      background: var(--cream);
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 50px 60px;
+      display: opacity;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: translateY(15px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-color: var(--cream);
+      background-image: 
+        radial-gradient(circle at 90% 10%, rgba(219, 177, 90, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 10% 90%, rgba(81, 38, 154, 0.05) 0%, transparent 40%);
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+      z-index: 2;
+    }
+
+    /* Dark Slide Variant */
+    .slide.slide-dark {
+      background-color: var(--primary);
+      background-image: 
+        radial-gradient(circle at 80% 20%, rgba(219, 177, 90, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(0, 0, 0, 0.2) 0%, transparent 50%);
+      color: var(--white);
+    }
+
+    /* Slide Header */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      border-bottom: 2px solid rgba(81, 38, 154, 0.1);
+      padding-bottom: 15px;
+    }
+
+    .slide-dark .slide-header {
+      border-bottom-color: rgba(219, 177, 90, 0.25);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: var(--primary);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 50px;
+    }
+
+    .slide-dark .badge {
+      background: var(--gold);
+      color: var(--primary-dark);
+    }
+
+    .brand-logo-text {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--primary);
+    }
+
+    .slide-dark .brand-logo-text {
+      color: var(--gold);
+    }
+
+    /* Slide Content Area */
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Typography */
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 3.8rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    .slide-dark h1 {
+      color: var(--white);
+    }
+
+    h2 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .slide-dark h2 {
+      color: var(--gold);
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+    }
+
+    .slide-dark h3 {
+      color: var(--white);
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--muted-text);
+    }
+
+    .slide-dark p {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .subtitle {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-style: italic;
+      color: var(--gold);
+      margin-bottom: 25px;
+    }
+
+    /* Cards & Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--gold);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .slide-dark .card {
+      background: rgba(255, 255, 255, 0.08);
+      border-left-color: var(--gold);
+      backdrop-filter: blur(10px);
+    }
+
+    .card-purple {
+      background: var(--primary);
+      color: var(--white);
+      border-left-color: var(--gold);
+    }
+
+    .card-purple h3, .card-purple p {
+      color: var(--white);
+    }
+
+    .quote-box {
+      background: var(--white);
+      border-left: 6px solid var(--primary);
+      padding: 30px 40px;
+      border-radius: 0 16px 16px 0;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .quote-box::before {
+      content: "“";
+      font-family: var(--font-heading);
+      font-size: 6rem;
+      color: var(--gold);
+      opacity: 0.3;
+      position: absolute;
+      top: -10px;
+      left: 15px;
+    }
+
+    .quote-text {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-style: italic;
+      line-height: 1.4;
+      color: var(--primary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Transformation Table */
+    .transform-container {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .transform-box {
+      border-radius: 14px;
+      padding: 25px;
+    }
+
+    .before-box {
+      background: #FFF5F5;
+      border: 1px solid #FED7D7;
+    }
+
+    .after-box {
+      background: #F0FFF4;
+      border: 1px solid #C6F6D5;
+    }
+
+    .transform-box h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .before-box h4 { color: #E53E3E; }
+    .after-box h4 { color: #2F855A; }
+
+    .transform-list {
+      list-style: none;
+    }
+
+    .transform-list li {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+    }
+
+    .arrow-divider {
+      width: 50px;
+      height: 50px;
+      background: var(--gold);
+      color: var(--primary-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 0 auto;
+      box-shadow: 0 4px 15px rgba(219, 177, 90, 0.4);
+    }
+
+    /* Swatches */
+    .color-swatch-group {
+      display: flex;
+      gap: 15px;
+    }
+
+    .swatch {
+      flex: 1;
+      border-radius: 12px;
+      padding: 18px;
+      color: var(--white);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 110px;
+    }
+
+    .swatch-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .swatch-hex {
+      font-family: monospace;
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    /* Slide Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(81, 38, 154, 0.1);
+      padding-top: 15px;
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: var(--muted-text);
+      letter-spacing: 1px;
+    }
+
+    .slide-dark .slide-footer {
+      border-top-color: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Control Bar */
+    .control-bar {
+      height: 70px;
+      background: #1A1423;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 30px;
+      color: white;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      background: var(--gold);
+      color: var(--primary-dark);
+      border-color: var(--gold);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-light);
+      color: white;
+    }
+
+    .slide-counter {
+      font-family: monospace;
+      font-size: 1rem;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+
+    /* Tags Pills */
+    .tag-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tag-pill {
+      background: var(--white);
+      border: 1px solid rgba(81, 38, 154, 0.15);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .slide-dark .tag-pill {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(219, 177, 90, 0.3);
+      color: var(--gold);
+    }
+
+    /* Golden Circle Diagram */
+    .gc-diagram {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .gc-circle {
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      text-transform: uppercase;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+
+    .gc-why {
+      width: 140px;
+      height: 140px;
+      background: var(--primary);
+      color: var(--gold);
+      font-size: 1.2rem;
+    }
+
+    .gc-box-wrapper {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 100%;
+    }
+
+    /* Print / Responsive adjustments */
+    @media (max-width: 900px) {
+      .grid-2, .grid-3, .grid-4, .transform-container {
+        grid-template-columns: 1fr;
+      }
+      .slide {
+        padding: 30px 25px;
+      }
+      h1 { font-size: 2.5rem; }
+      h2 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="presentation-container">
+    <div class="slide-stage">
+
+      <!-- SLIDE 1: Title -->
+      <div class="slide slide-dark active" id="slide-1">
+        <div class="slide-header">
+          <span class="badge">BRAND DNA STRATEGY</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body" style="text-align: center; align-items: center;">
+          <div style="font-size: 1rem; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 15px;">Official Brand Guidelines</div>
+          <h1 style="font-size: 4.5rem; margin-bottom: 10px;">HIJAFERA</h1>
+          <div class="subtitle" style="font-size: 2.4rem; color: var(--gold); margin-bottom: 30px;">Modest with Confidence</div>
+          <p style="max-width: 650px; margin: 0 auto; font-size: 1.2rem; opacity: 0.9;">
+            Panduan Identitas Brand, Nilai Utama, Pergerakan, dan Arah Komunikasi Hijafera untuk Muslim Modern.
+          </p>
+        </div>
+        <div class="slide-footer">
+          <span>ELEGANT • MODERN • COMFORTABLE</span>
+          <span>TIMELESS • CONFIDENT • GROWTH</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: Our Purpose -->
+      <div class="slide" id="slide-2">
+        <div class="slide-header">
+          <span class="badge">01. OUR PURPOSE</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body">
+          <h2>Mengapa Hijafera Ada?</h2>
+          <div class="grid-2" style="align-items: center;">
+            <div class="card" style="padding: 35px; border-left-width: 6px;">
+              <p style="font-size: 1.25rem; color: var(--primary-dark); line-height: 1.7;">
+                Kami hadir untuk menemani muslim modern agar <strong>berani bertumbuh setiap hari</strong> melalui modest fashion yang nyaman, modern, dan membuat mereka lebih percaya diri.
+              </p>
+            </div>
+            <div class="card card-purple" style="padding: 35px; background: var(--primary);">
+              <h3 style="color: var(--gold); font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 15px;">Filosofi Kehadiran</h3>
+              <p style="font-size: 1.2rem; line-height: 1.6;">
+                "Kami tidak sekadar membuat pakaian. Kami menciptakan <strong>rasa percaya diri</strong> untuk menemani setiap langkah kehidupan."
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>HIJAFERA BRAND DNA</span>
+          <span>SLIDE 02 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: Our Vision -->
+      <div class="slide slide-dark" id="slide-3">
+        <div class="slide-header">
+          <span class="badge">02. OUR VISION</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body" style="text-align: center; max-width: 900px; margin: 0 auto;">
+          <div style="font-size: 3rem; color: var(--gold); margin-bottom: 10px;">👁️</div>
+          <h2 style="font-size: 2.2rem; color: var(--gold); margin-bottom: 25px;">Visi Masa Depan Hijafera</h2>
+          <div class="quote-box" style="background: rgba(255,255,255,0.07); border-left-color: var(--gold); padding: 40px;">
+            <p class="quote-text" style="color: var(--white); font-size: 2.1rem; line-height: 1.4;">
+              Menjadi <strong style="color: var(--gold);">Modern Modest Fashion House</strong> dari Indonesia yang menginspirasi jutaan muslim di Asia Tenggara untuk tampil percaya diri dalam setiap fase kehidupan.
+            </p>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>REGIONAL INSPIRATION & LEADERSHIP</span>
+          <span>SLIDE 03 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: Our Mission -->
+      <div class="slide" id="slide-4">
+        <div class="slide-header">
+          <span class="badge">03. OUR MISSION</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body">
+          <h2 style="margin-bottom: 15px;">5 Misi Utama Kami</h2>
+          <div class="grid-3" style="gap: 18px;">
+            <div class="card">
+              <div style="font-size: 1.8rem; margin-bottom: 10px;">👑</div>
+              <h3>Kualitas Premium</h3>
+              <p>Menghadirkan modest fashion premium dengan kualitas terbaik.</p>
+            </div>
+            <div class="card">
+              <div style="font-size: 1.8rem; margin-bottom: 10px;">✨</div>
+              <h3>Desain Fresh & Modern</h3>
+              <p>Mendesain produk yang membuat pemakainya terlihat lebih fresh, modern, dan percaya diri.</p>
+            </div>
+            <div class="card">
+              <div style="font-size: 1.8rem; margin-bottom: 10px;">🍃</div>
+              <h3>Material Nyaman</h3>
+              <p>Menggunakan material yang ringan, nyaman, dan tidak mudah membuat gerah.</p>
+            </div>
+            <div class="card">
+              <div style="font-size: 1.8rem; margin-bottom: 10px;">🤝</div>
+              <h3>Teman Perjalanan</h3>
+              <p>Menjadi teman perjalanan pelanggan dalam setiap proses bertumbuh.</p>
+            </div>
+            <div class="card" style="grid-column: span 2;">
+              <div style="font-size: 1.8rem; margin-bottom: 10px;">🌱</div>
+              <h3>Gerakan Berani Bertumbuh</h3>
+              <p>Membangun komunitas yang saling menginspirasi melalui gerakan Berani Bertumbuh.</p>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>EXECUTION PILLARS</span>
+          <span>SLIDE 04 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 5: Our Movement -->
+      <div class="slide" id="slide-5">
+        <div class="slide-header">
+          <span class="badge">04. OUR MOVEMENT</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body">
+          <h2 style="margin-bottom: 10px;">BERANI BERTUMBUH</h2>
+          <p style="margin-bottom: 25px; font-size: 1.2rem; font-weight: 600; color: var(--primary);">
+            Kami percaya bahwa setiap orang sedang berada dalam proses:
+          </p>
+          <div class="grid-2" style="gap: 20px;">
+            <div class="card" style="border-left-color: var(--primary);">
+              <ul style="list-style-type: none; font-size: 1.1rem; line-height: 2;">
+                <li>💼 <strong>Ada yang sedang membangun karier.</strong></li>
+                <li>💍 <strong>Ada yang baru menikah.</strong></li>
+                <li>🎓 <strong>Ada yang sedang kuliah.</strong></li>
+              </ul>
+            </div>
+            <div class="card" style="border-left-color: var(--primary);">
+              <ul style="list-style-type: none; font-size: 1.1rem; line-height: 2;">
+                <li>🚀 <strong>Ada yang sedang membangun bisnis.</strong></li>
+                <li>🌟 <strong>Ada yang sedang menjadi versi terbaik dirinya.</strong></li>
+              </ul>
+            </div>
+          </div>
+          <div style="margin-top: 25px; background: var(--primary); color: white; padding: 18px 30px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 1.2rem;">
+            Hijafera hadir untuk menemani perjalanan tersebut.
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>EMPOWERING EVERY PHASE OF LIFE</span>
+          <span>SLIDE 05 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 6: Tagline & Essence -->
+      <div class="slide slide-dark" id="slide-6">
+        <div class="slide-header">
+          <span class="badge">05 & 06. TAGLINE & BRAND ESSENCE</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body">
+          <div class="grid-2" style="gap: 40px; align-items: stretch;">
+            <!-- Tagline Box -->
+            <div class="card" style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+              <span style="color: var(--primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px;">05. TAGLINE</span>
+              <h1 style="font-size: 3.2rem; color: var(--primary); margin: 0;">Modest with Confidence</h1>
+            </div>
+            <!-- Essence Box -->
+            <div class="card" style="display: flex; flex-direction: column; justify-content: center; border-left-color: var(--gold);">
+              <span style="color: var(--gold); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px;">06. BRAND ESSENCE</span>
+              <h2 style="color: var(--gold); font-size: 2.8rem; margin-bottom: 15px;">Quiet Confidence</h2>
+              <ul style="list-style: none; font-size: 1.15rem; line-height: 1.8;">
+                <li>✨ <strong>Percaya diri</strong> tanpa perlu berlebihan.</li>
+                <li>💎 <strong>Elegan</strong> tanpa harus menarik perhatian.</li>
+                <li>🤍 <strong>Nyaman</strong> menjadi diri sendiri.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>CORE ESSENCE & SLOGAN</span>
+          <span>SLIDE 06 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 7: Brand Promise -->
+      <div class="slide" id="slide-7">
+        <div class="slide-header">
+          <span class="badge">07. BRAND PROMISE</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body">
+          <h2>Janji Brand Kepada Pelanggan</h2>
+          <div class="grid-2" style="gap: 25px; margin-top: 15px;">
+            <div class="card" style="display: flex; gap: 15px; align-items: center;">
+              <div style="background: var(--cream-dark); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">🌿</div>
+              <div>
+                <h3>Terlihat Lebih Fresh</h3>
+                <p>Membuat pelanggan selalu tampak segar dan menarik.</p>
+              </div>
+            </div>
+            <div class="card" style="display: flex; gap: 15px; align-items: center;">
+              <div style="background: var(--cream-dark); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">👗</div>
+              <div>
+                <h3>Kesan Proporsional</h3>
+                <p>Memberikan kesan lebih proporsional melalui potongan & siluet.</p>
+              </div>
+            </div>
+            <div class="card" style="display: flex; gap: 15px; align-items: center;">
+              <div style="background: var(--cream-dark); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">⏰</div>
+              <div>
+                <h3>Kenyamanan Pagi - Malam</h3>
+                <p>Sangat nyaman dipakai beraktivitas seharian penuh.</p>
+              </div>
+            </div>
+            <div class="card" style="display: flex; gap: 15px; align-items: center;">
+              <div style="background: var(--cream-dark); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">💪</div>
+              <div>
+                <h3>Rasa Percaya Diri</h3>
+                <p>Memberikan dorongan percaya diri dalam setiap momen.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>CUSTOMER COMMITMENT</span>
+          <span>SLIDE 07 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 8: Customer Transformation -->
+      <div class="slide" id="slide-8">
+        <div class="slide-header">
+          <span class="badge">08. CUSTOMER TRANSFORMATION</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body">
+          <h2 style="margin-bottom: 20px;">Transformasi Pelanggan</h2>
+          <div class="transform-container">
+            <div class="transform-box before-box">
+              <h4>❌ Sebelum Memakai Hijafera</h4>
+              <ul class="transform-list">
+                <li><span>❌</span> Bingung memilih outfit</li>
+                <li><span>❌</span> Takut terlihat tua</li>
+                <li><span>❌</span> Takut kurang proporsional</li>
+                <li><span>❌</span> Tidak nyaman / bahan panas</li>
+              </ul>
+            </div>
+            
+            <div class="arrow-divider">➔</div>
+            
+            <div class="transform-box after-box">
+              <h4>✅ Setelah Memakai Hijafera</h4>
+              <ul class="transform-list">
+                <li><span>✅</span> Terlihat lebih fresh & modern</li>
+                <li><span>✅</span> Lebih percaya diri</li>
+                <li><span>✅</span> Nyaman sepanjang hari</li>
+                <li><span>✅</span> Siap menjalani aktivitas</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>BEFORE & AFTER EXPERIENCE</span>
+          <span>SLIDE 08 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 9: Brand Values -->
+      <div class="slide" id="slide-9">
+        <div class="slide-header">
+          <span class="badge">09. BRAND VALUES</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body">
+          <h2 style="margin-bottom: 15px;">Nilai-Nilai Utama Brand</h2>
+          <div class="grid-4" style="gap: 15px;">
+            <div class="card" style="padding: 18px;">
+              <h3 style="color: var(--primary);">CONFIDENCE</h3>
+              <p style="font-size: 0.95rem;">Percaya diri menjadi diri sendiri.</p>
+            </div>
+            <div class="card" style="padding: 18px;">
+              <h3 style="color: var(--primary);">COMFORT</h3>
+              <p style="font-size: 0.95rem;">Nyaman dipakai setiap hari.</p>
+            </div>
+            <div class="card" style="padding: 18px;">
+              <h3 style="color: var(--primary);">ELEGANCE</h3>
+              <p style="font-size: 0.95rem;">Sederhana namun berkelas.</p>
+            </div>
+            <div class="card" style="padding: 18px;">
+              <h3 style="color: var(--primary);">TIMELESS</h3>
+              <p style="font-size: 0.95rem;">Tidak mengikuti tren sesaat.</p>
+            </div>
+            <div class="card" style="padding: 18px;">
+              <h3 style="color: var(--primary);">EXCELLENCE</h3>
+              <p style="font-size: 0.95rem;">Detail kecil menentukan kualitas besar.</p>
+            </div>
+            <div class="card" style="padding: 18px;">
+              <h3 style="color: var(--primary);">GROWTH</h3>
+              <p style="font-size: 0.95rem;">Selalu bertumbuh bersama pelanggan.</p>
+            </div>
+            <div class="card" style="padding: 18px; grid-column: span 2;">
+              <h3 style="color: var(--primary);">INTEGRITY</h3>
+              <p style="font-size: 0.95rem;">Jujur dalam produk, pelayanan, dan komunikasi.</p>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>7 CORE VALUES</span>
+          <span>SLIDE 09 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 10: Brand Personality -->
+      <div class="slide" id="slide-10">
+        <div class="slide-header">
+          <span class="badge">10. BRAND PERSONALITY</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body">
+          <h2 style="margin-bottom: 20px;">Karakter Personalitas Hijafera</h2>
+          <div class="tag-grid" style="gap: 15px; justify-content: center; margin-top: 20px;">
+            <div class="tag-pill" style="font-size: 1.3rem; padding: 15px 35px; border-color: var(--gold);">👑 Elegan</div>
+            <div class="tag-pill" style="font-size: 1.3rem; padding: 15px 35px; border-color: var(--gold);">✨ Modern</div>
+            <div class="tag-pill" style="font-size: 1.3rem; padding: 15px 35px; border-color: var(--gold);">☀️ Hangat</div>
+            <div class="tag-pill" style="font-size: 1.3rem; padding: 15px 35px; border-color: var(--gold);">🌱 Optimis</div>
+            <div class="tag-pill" style="font-size: 1.3rem; padding: 15px 35px; border-color: var(--gold);">💃 Dewasa</div>
+            <div class="tag-pill" style="font-size: 1.3rem; padding: 15px 35px; border-color: var(--gold);">💎 Berkelas</div>
+            <div class="tag-pill" style="font-size: 1.3rem; padding: 15px 35px; border-color: var(--gold);">🌟 Inspiratif</div>
+            <div class="tag-pill" style="font-size: 1.3rem; padding: 15px 35px; border-color: var(--gold);">🤝 Bersahabat</div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>HUMANIZED BRAND CHARACTER</span>
+          <span>SLIDE 10 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 11: Visual Direction -->
+      <div class="slide" id="slide-11">
+        <div class="slide-header">
+          <span class="badge">11. VISUAL DIRECTION</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body">
+          <h2>Arah Visual: Warna & Mood</h2>
+          <div class="grid-2" style="gap: 30px; margin-top: 15px;">
+            <div>
+              <h3 style="margin-bottom: 15px;">Palette Warna Official</h3>
+              <div class="color-swatch-group">
+                <div class="swatch" style="background: #51269A;">
+                  <span class="swatch-name">Deep Purple</span>
+                  <span class="swatch-hex">#51269A</span>
+                </div>
+                <div class="swatch" style="background: #DBB15A; color: #2A2438;">
+                  <span class="swatch-name">Gold</span>
+                  <span class="swatch-hex">#DBB15A</span>
+                </div>
+                <div class="swatch" style="background: #FBF3EA; color: #2A2438; border: 1px solid #ddd;">
+                  <span class="swatch-name">Warm Cream</span>
+                  <span class="swatch-hex">#FBF3EA</span>
+                </div>
+                <div class="swatch" style="background: #FFFFFF; color: #2A2438; border: 1px solid #ddd;">
+                  <span class="swatch-name">White</span>
+                  <span class="swatch-hex">#FFFFFF</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 style="margin-bottom: 15px;">Visual Moodboard</h3>
+              <div class="card" style="padding: 20px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                  <span class="tag-pill">Premium</span>
+                  <span class="tag-pill">Editorial</span>
+                  <span class="tag-pill">Luxury</span>
+                  <span class="tag-pill">Clean</span>
+                  <span class="tag-pill">Natural</span>
+                  <span class="tag-pill">Soft Lighting</span>
+                  <span class="tag-pill">Minimal</span>
+                  <span class="tag-pill">Timeless</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>COLOR SYSTEM & PHOTOGRAPHY MOOD</span>
+          <span>SLIDE 11 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 12: Design Principle -->
+      <div class="slide" id="slide-12">
+        <div class="slide-header">
+          <span class="badge">12. DESIGN PRINCIPLE</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body">
+          <h2>Prinsip Desain Produk</h2>
+          <p style="margin-bottom: 20px; font-weight: 600;">Semua produk Hijafera harus membuat pelanggan merasa:</p>
+          <div class="grid-4" style="gap: 15px;">
+            <div class="card" style="text-align: center; border-left: none; border-top: 4px solid var(--gold);">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">🌸</div>
+              <h3>Lebih Muda</h3>
+            </div>
+            <div class="card" style="text-align: center; border-left: none; border-top: 4px solid var(--gold);">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">✨</div>
+              <h3>Lebih Fresh</h3>
+            </div>
+            <div class="card" style="text-align: center; border-left: none; border-top: 4px solid var(--gold);">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">👑</div>
+              <h3>Lebih Percaya Diri</h3>
+            </div>
+            <div class="card" style="text-align: center; border-left: none; border-top: 4px solid var(--gold);">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">☁️</div>
+              <h3>Lebih Nyaman</h3>
+            </div>
+            <div class="card" style="text-align: center; border-left: none; border-top: 4px solid var(--primary);">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">🍃</div>
+              <h3>Tidak Terasa Gerah</h3>
+            </div>
+            <div class="card" style="text-align: center; border-left: none; border-top: 4px solid var(--primary);">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">🎨</div>
+              <h3>Mudah Dipadukan</h3>
+            </div>
+            <div class="card" style="text-align: center; border-left: none; border-top: 4px solid var(--primary); grid-column: span 2;">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">📅</div>
+              <h3>Cocok Dipakai Setiap Hari</h3>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>PRODUCT DEVELOPMENT GUIDELINES</span>
+          <span>SLIDE 12 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 13: Brand Voice -->
+      <div class="slide" id="slide-13">
+        <div class="slide-header">
+          <span class="badge">13. BRAND VOICE</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body">
+          <h2>Gaya Bahasa & Komunikasi</h2>
+          <div class="grid-2" style="gap: 30px; margin-top: 15px;">
+            <div class="transform-box before-box">
+              <h4>⛔ JANGAN (AVOID)</h4>
+              <ul class="transform-list">
+                <li>❌ Jangan terdengar seperti marketplace.</li>
+                <li>❌ Jangan terdengar seperti sedang hard selling.</li>
+              </ul>
+            </div>
+            <div class="transform-box after-box">
+              <h4>💬 GUNAKAN BAHASA YANG:</h4>
+              <div class="tag-grid" style="gap: 10px; margin-top: 10px;">
+                <span class="tag-pill">☀️ Hangat</span>
+                <span class="tag-pill">👑 Elegan</span>
+                <span class="tag-pill">🌱 Optimis</span>
+                <span class="tag-pill">🍃 Menenangkan</span>
+                <span class="tag-pill">🔥 Memberikan semangat</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>COMMUNICATION STYLE</span>
+          <span>SLIDE 13 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 14: Golden Circle -->
+      <div class="slide" id="slide-14">
+        <div class="slide-header">
+          <span class="badge">14. GOLDEN CIRCLE</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body">
+          <h2 style="margin-bottom: 20px;">Golden Circle (Why, How, What)</h2>
+          <div class="gc-box-wrapper">
+            <div class="card" style="border-top: 5px solid var(--primary);">
+              <span class="badge" style="margin-bottom: 12px;">WHY</span>
+              <h3>Alasan Utama</h3>
+              <p>Kami percaya setiap orang berhak merasa <strong>percaya diri</strong> dalam setiap proses bertumbuh.</p>
+            </div>
+            <div class="card" style="border-top: 5px solid var(--gold);">
+              <span class="badge" style="background: var(--gold); color: var(--primary-dark); margin-bottom: 12px;">HOW</span>
+              <h3>Cara Mencapai</h3>
+              <p>Melalui <strong>modest fashion</strong> yang nyaman, berkualitas, dan dirancang untuk kehidupan sehari-hari.</p>
+            </div>
+            <div class="card" style="border-top: 5px solid var(--primary-light);">
+              <span class="badge" style="background: var(--primary-light); color: white; margin-bottom: 12px;">WHAT</span>
+              <h3>Produk & Layanan</h3>
+              <p><strong>Premium modest fashion</strong> untuk muslim modern.</p>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>BRAND PURPOSE MODEL</span>
+          <span>SLIDE 14 / 15</span>
+        </div>
+      </div>
+
+      <!-- SLIDE 15: Satu Kalimat Untuk Semua Tim -->
+      <div class="slide slide-dark" id="slide-15">
+        <div class="slide-header">
+          <span class="badge">15. NORTH STAR STATEMENT</span>
+          <span class="brand-logo-text">HIJAFERA</span>
+        </div>
+        <div class="slide-body" style="text-align: center; max-width: 950px; margin: 0 auto;">
+          <h2 style="color: var(--gold); font-size: 2rem; margin-bottom: 25px;">Satu Kalimat Untuk Semua Tim</h2>
+          <div class="quote-box" style="background: rgba(255,255,255,0.08); border-left-color: var(--gold); padding: 45px;">
+            <p class="quote-text" style="color: var(--white); font-size: 2rem; line-height: 1.5; font-style: normal;">
+              "Setiap desain, foto, video, caption, iklan, hingga pelayanan Hijafera harus membuat pelanggan merasa 
+              <span style="color: var(--gold); font-weight: 700;">lebih fresh, lebih percaya diri, lebih nyaman, dan berani bertumbuh</span>."
+            </p>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>ALIGNED TEAM PURPOSE</span>
+          <span>SLIDE 15 / 15</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Control Bar -->
+  <div class="control-bar">
+    <button class="btn" id="prevBtn" onclick="prevSlide()">← Prev</button>
+    <div class="slide-counter" id="slideCounter">SLIDE 01 / 15</div>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextSlide()">Next →</button>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 15;
+
+    function updateSlide() {
+      document.querySelectorAll('.slide').forEach((slide, idx) => {
+        if (idx + 1 === currentSlide) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+      const slideNumFormatted = String(currentSlide).padStart(2, '0');
+      const totalNumFormatted = String(totalSlides).padStart(2, '0');
+      document.getElementById('slideCounter').innerText = `SLIDE ${slideNumFormatted} / ${totalNumFormatted}`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+  </script>
+</body>
+</html>
